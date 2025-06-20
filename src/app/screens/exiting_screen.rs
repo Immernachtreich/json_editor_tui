@@ -7,11 +7,17 @@ pub struct ExitingScreen;
 
 impl Screen for ExitingScreen {
     fn handle_key_event(&mut self, app: &mut App, key_code: KeyCode) -> () {
-        // match key_code {
-        //     KeyCode::Char('y') => Some(true),
-        //     KeyCode::Char('n') | KeyCode::Char('q') => Some(false),
-        //     _ => None,
-        // }
+        match key_code {
+            KeyCode::Char('y') => {
+                app.should_print = true;
+                app.should_exit = true;
+            }
+            KeyCode::Char('n') | KeyCode::Char('q') => {
+                app.should_print = true;
+                app.should_exit = true;
+            }
+            _ => (),
+        }
     }
     fn ui(&mut self, app: &mut crate::app::App, frame: &mut ratatui::Frame) -> () {
         todo!()

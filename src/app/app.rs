@@ -41,10 +41,6 @@ impl App {
         }
     }
 
-    fn switch_screen(&mut self, screen_code: ScreenCode) -> () {
-        self.current_screen_code = screen_code;
-    }
-
     /// Print the contents of the key-value store as a JSON object.
     ///
     /// Will error if the contents of the store cannot be converted to a JSON
@@ -65,11 +61,13 @@ impl App {
 
                 // Move the screen out, leaving `None`
                 if let Some(mut current_screen) = self.screens.remove(&self.current_screen_code) {
+                    let old_key = self.current_screen_code.clone();
+
                     // Now we can hand &mut self to the screen safely
                     current_screen.handle_key_event(self, key.code);
 
                     // Put the screen back
-                    self.screens.insert(self.current_screen_code.clone(), current_screen);
+                    self.screens.insert(old_key, current_screen);
                 }
             }
 
@@ -81,5 +79,14 @@ impl App {
         }
     }
 
-    pub fn draw(&self, frame: &mut Frame) {}
+    pub fn draw(&mut self, frame: &mut Frame) {
+        // Move the screen out, leaving `None`
+        if let Some(mut current_screen) = self.screens.remove(&self.current_screen_code) {
+            // Now we can hand &mut self to the screen safely
+            current_screen.ui(self, frame);
+
+            // Put the screen back
+            self.screens.insert(self.current_screen_code.clone(), current_screen);
+        }
+    }
 }

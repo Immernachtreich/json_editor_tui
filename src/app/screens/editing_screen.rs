@@ -104,5 +104,7 @@ impl Screen for EditingScreen {
             _ => {}
         }
     }
-    fn ui(&mut self, app: &mut App, frame: &mut Frame) -> () {}
+    fn ui(&mut self, app: &mut App, frame: &mut Frame) -> () {
+        todo!()
+    }
 }
