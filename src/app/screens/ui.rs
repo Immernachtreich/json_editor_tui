@@ -1,4 +1,4 @@
-use ratatui::{ layout::{ Constraint, Direction, Layout, Rect }, Frame };
+use ratatui::{ layout::{ Constraint, Direction, Layout, Rect } };
 use std::rc::Rc;
 
 /// Centers a rectangle within another, given as a percentage of the parent's size
