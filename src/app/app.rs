@@ -1,10 +1,15 @@
 use std::{ collections::HashMap, io };
 
-use ratatui::{ crossterm::event::{ self, Event, KeyEventKind }, prelude::Backend, Frame, Terminal };
+use ratatui::{
+    crossterm::event::{ self, Event, KeyCode, KeyEventKind },
+    prelude::Backend,
+    Frame,
+    Terminal,
+};
 
 use crate::app::screens::{ EditingScreen, ExitingScreen, MainScreen, Screen };
 
-#[derive(Eq, Hash, PartialEq, Clone, Copy)]
+#[derive(Eq, Hash, PartialEq, Clone, Copy, Debug)]
 pub enum ScreenCode {
     Main,
     Editing,
@@ -59,6 +64,10 @@ impl App {
                     continue;
                 }
 
+                if key.code == KeyCode::Home {
+                    break Ok(self.should_print);
+                }
+
                 // Move the screen out, leaving `None`
                 if let Some(mut current_screen) = self.screens.remove(&self.current_screen_code) {
                     let old_key = self.current_screen_code.clone();
@@ -82,11 +91,13 @@ impl App {
     pub fn draw(&mut self, frame: &mut Frame) {
         // Move the screen out, leaving `None`
         if let Some(mut current_screen) = self.screens.remove(&self.current_screen_code) {
+            let old_key = self.current_screen_code.clone();
+
             // Now we can hand &mut self to the screen safely
             current_screen.ui(self, frame);
 
             // Put the screen back
-            self.screens.insert(self.current_screen_code.clone(), current_screen);
+            self.screens.insert(old_key, current_screen);
         }
     }
 }

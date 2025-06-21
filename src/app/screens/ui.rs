@@ -6,7 +6,7 @@ use std::rc::Rc;
 /// Given a percentage width and height, this will return a rectangle that is
 /// centered within the given rectangle, with the given percentage of that
 /// rectangle's size.
-fn centered_rect(percent_x: u16, percent_y: u16, r: Rect) -> Rect {
+pub fn centered_rect(percent_x: u16, percent_y: u16, r: Rect) -> Rect {
     // Cut the rectangle into 3 vertical pieces
     let popup_layout: Rc<[Rect]> = Layout::default()
         .direction(Direction::Vertical)

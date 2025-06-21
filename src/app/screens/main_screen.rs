@@ -33,16 +33,16 @@ impl MainScreen {
         let outer_block: Block = Block::bordered().padding(Padding::horizontal(2));
 
         for (_, (key, value)) in pairs.iter().enumerate() {
-            let content: String = format!("{: <25} : {}", key, value);
+            let content: String = format!("{key: <25} : {value}");
             let styled_span: Span = Span::styled(content, Style::default().fg(Color::Yellow));
 
             list_items.push(ListItem::new(Line::from(styled_span)));
         }
 
-        if list_items.len() > 1 {
+        if list_items.len() > 0 {
             frame.render_widget(List::new(list_items).block(outer_block), area);
         } else {
-            let no_items_paragraph = Paragraph::new("No JSON Data")
+            let no_items_paragraph: Paragraph = Paragraph::new("No JSON Data")
                 .style(Style::default().fg(Color::Gray))
                 .centered()
                 .block(outer_block);
